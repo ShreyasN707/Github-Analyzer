@@ -2,310 +2,285 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GitHub Analyzer</title>
-  <!-- Chart.js -->
+  <title>GitHub Analyzer - Terminal Style</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <!-- Feather Icons for accents -->
   <script src="https://unpkg.com/feather-icons"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --color-bg: #040408;
-      --color-card: #11121c;
-      --color-glass: #191a2ccc;
-      --color-border: #23232e;
-      --color-accent: #47fff1;
-      --color-accent2: #ed5e80;
-      --color-accent3: #ffe78d;
-      --color-title: #fafaff;
-      --color-secondary: #a2adc3;
-      --color-blue: #37b5ff;
-      --color-green: #56ffaa;
-      --color-lavender: #a871ff;
-      --radius: 20px;
+      --term-bg: #161818;
+      --panel-bg: #1b1d1e;
+      --card-border: #252e27;
+      --card-radius: 13px;
+      --card-shadow: 0 2px 18px #202c2044;
+      --term-accent: #36ffb4;
+      --term-accent-faint: #46eeae31;
+      --term-cyan: #77edf4;
+      --term-yellow: #e3df85;
+      --term-text: #e6ffe9;
+      --term-label: #b5bcb7;
     }
-    * { box-sizing: border-box; }
     body {
-      background: var(--color-bg);
-      color: var(--color-title);
-      font-family: 'Inter', sans-serif;
-      margin: 0;
+      background: var(--term-bg);
       min-height: 100vh;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--term-text);
+      margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      letter-spacing: .15px;
+      letter-spacing: .01em;
     }
     h1 {
-      margin: 50px 0 30px 0;
-      font-size: 2.6rem;
+      margin: 42px 0 24px 0;
+      font-size: 2.1rem;
       font-weight: 700;
-      letter-spacing: 2.5px;
-      text-align: center;
-      user-select:none;
-      animation: fadeInDown .8s cubic-bezier(.77,.2,.45,1.01);
-    }
-    @keyframes fadeInDown {
-      from { opacity:0; transform:translateY(-20px);}
-      to { opacity:1; transform:translateY(0);}
+      color: var(--term-accent);
+      border-left: 6px solid var(--term-accent);
+      padding-left: 15px;
+      background: transparent;
+      letter-spacing: 2px;
+      user-select: none;
     }
     form {
+      background: var(--panel-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--card-radius);
+      padding: 11px 16px;
       display: flex;
-      gap: 12px;
-      margin-bottom: 28px;
-      background: var(--color-card);
-      border-radius: 15px;
-      padding: 10px 20px;
-      border: 1.2px solid var(--color-border);
-      box-shadow: 0 2px 14px #00000033;
-      animation: slideIn .7s .12s both;
+      gap: 11px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+      min-width: 340px;
+      max-width: 98vw;
     }
-    @keyframes slideIn {
-      from { opacity:0; transform: scale(.97);}
-      to { opacity:1; transform: scale(1);}
+    input, button {
+      font-family: inherit;
+      font-size: 1.03rem;
+      border-radius: 6px;
+      border: none;
+      outline: none;
     }
     input {
-      padding: 12px 14px;
-      font-size: 1.1rem;
-      border-radius: 8px;
-      border: 1.5px solid #161626;
-      color: var(--color-title);
-      background: #181828;
-      font-family: inherit;
-      outline: none;
-      min-width: 180px;
-      transition: border .16s, box-shadow .13s;
+      background: #141715;
+      color: var(--term-text);
+      padding: 10px 12px;
+      border: 1.35px solid #2a2d24;
+      min-width: 160px;
+      transition: border-color .12s;
     }
-    input:focus { border-color: var(--color-accent); box-shadow: 0 0 8px #2cffe7cc; }
+    input:focus { border-color: var(--term-accent);}
     button {
-      background: linear-gradient(90deg, var(--color-accent) 30%, var(--color-lavender) 90%);
-      color: #111012;
+      background: var(--term-accent);
+      color: #161818;
       font-weight: 700;
-      font-size: 1.08rem;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 24px;
+      padding: 10px 20px;
       cursor: pointer;
-      letter-spacing: 1.1px;
-      box-shadow: 0 1px 7px #47fff166;
-      transition: filter 0.17s, box-shadow .19s;
+      border: none;
+      box-shadow: 0 2px 12px #34eab144;
+      transition: background .18s;
     }
-    button:hover { filter: brightness(1.13); box-shadow: 0 2px 18px #47fff1aa; }
+    button:hover {
+      background: var(--term-cyan);
+      color: #131818;
+    }
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 26px;
-      max-width: 1050px;
+      grid-template-columns: 280px 1fr;
+      gap: 36px;
+      max-width: 1100px;
       margin: 0 auto;
-      width: 96vw;
-      animation: fadeIn .7s cubic-bezier(.88,.22,.22,1);
+      margin-bottom: 45px;
+      width: 93vw;
     }
-    @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
     .sidebar {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 20px;
+      min-width: 220px;
     }
     .profile-card {
-      background: var(--color-card);
-      padding: 2.0rem 1rem 1.3rem 1rem;
-      border-radius: var(--radius);
-      border: 1.2px solid var(--color-border);
-      box-shadow: 0 7px 22px #00ffe688, 0 1.5px 12px #040c128c;
-      margin-bottom: 10px;
+      background: var(--panel-bg);
+      border: 1.5px solid var(--card-border);
+      border-radius: var(--card-radius);
+      padding: 1.4rem 1.2rem 1.15rem 1.2rem;
       display: flex;
-      align-items: center;
       flex-direction: column;
-      gap: 9px;
-      transition: transform 0.22s, box-shadow .28s;
-    }
-    .profile-card:hover {
-      box-shadow: 0 12px 48px #00f5e4a0, 0 0 10px 6px #ffe78d55;
-      transform: scale(1.03);
+      align-items: center;
+      min-height: 220px;
+      box-shadow: var(--card-shadow);
     }
     .profile-avatar {
       border-radius: 50%;
-      width: 80px; height: 80px;
-      margin-bottom: 11px;
-      border: 3.5px solid var(--color-accent);
+      width: 64px;
+      height: 64px;
+      margin-bottom: 10px;
+      border: 2.2px solid var(--term-accent);
       object-fit: cover;
-      transition: box-shadow 0.25s, border-color 0.22s;
-      background: #181833;
-      box-shadow: 0 1px 22px #00ffe6bf;
-    }
-    .profile-card:hover .profile-avatar {
-      border-color: var(--color-accent2);
-      box-shadow: 0 0 26px #ed5e80ae, 0 0 8px 2px #ffe78dcc;
+      background: #171f1c;
+      box-shadow: none;
     }
     .profile-username {
-      font-size: 1.19rem;
+      font-size: 1.08rem;
       font-weight: 700;
-      color: var(--color-title);
-      margin-bottom: 2px;
-      margin-top:2px;
-      text-align: center;
+      color: var(--term-accent);
+      letter-spacing: .09em;
+      margin-bottom: 5px;
     }
     .profile-handle {
-      color: var(--color-secondary);
-      font-size: 1rem;
-      margin-bottom: 7px;
-      text-align: center;
+      color: var(--term-cyan);
+      font-size: .97rem;
+      margin-bottom: 8px;
     }
     .profile-bio {
-      color: var(--color-secondary);
-      font-size: 1rem;
+      color: var(--term-label);
+      font-size: .96rem;
       text-align: center;
+      min-height: 14px;
+      margin-bottom: 12px;
     }
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 7px;
-      margin-top: 8px;
+      gap: 10px;
+      margin-top: 3px;
+      width: 100%;
     }
     .stat-box {
-      background: var(--color-glass);
-      border-radius: 13.5px;
-      border: 1.1px solid var(--color-border);
+      background: #181c19;
+      border-radius: 7px;
+      border: 1.2px solid #232e24;
       text-align: center;
-      padding: 11px 2px 10px 2px;
-      box-shadow: 0 1.5px 10px #0adcc333 inset;
+      padding: 6px 3px 7px 3px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 80px;
-      transition: box-shadow 0.18s, transform 0.21s;
-      cursor: pointer;
-      position: relative;
-      will-change: transform, box-shadow;
+      font-size: .95rem;
+      transition: border-color .17s;
+      box-shadow: 0 1.5px 7px #141c13aa inset;
     }
     .stat-box:hover {
-      box-shadow: 0 0 34px #3bf9edb8, 0 0 6px #a871ffcc;
-      transform: scale(1.08);
-      z-index: 11;
-      color: var(--color-accent);
+      border-color: var(--term-cyan);
+      color: var(--term-cyan);
+      z-index: 9;
     }
     .stat-value {
       font-weight: 700;
-      font-size: 1.19rem;
-      color: var(--color-accent2);
+      font-size: 1.04rem;
+      color: var(--term-yellow);
+      letter-spacing: 0.01em;
       margin-bottom: 2px;
-      margin-top: 2px;
-      transition: color 0.16s;
+      margin-top: 0;
+      transition: color 0.13s;
     }
     .stat-box:hover .stat-value {
-      color: var(--color-accent);
+      color: var(--term-accent);
     }
     .stat-label {
-      font-size: 0.97rem;
-      color: var(--color-secondary);
-      letter-spacing: 0.06em;
-      user-select: none;
+      font-size: .97rem;
+      color: var(--term-label);
+      letter-spacing: 0.03em;
+      padding-top:1px;
     }
     .main-panel {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 17px;
+      gap: 26px;
       grid-template-areas:
         "langs commits"
         "stars prvsissues";
     }
     .widget {
-      background: var(--color-card);
-      border-radius: var(--radius);
-      border: 1.1px solid var(--color-border);
-      box-shadow: 0 4px 18px #001a2096;
-      padding: 0.95rem 0.9rem 0.7rem 0.9rem;
+      background: var(--panel-bg);
+      border-radius: var(--card-radius);
+      border: 1.7px solid var(--card-border);
+      box-shadow: var(--card-shadow);
+      padding: 0.85rem 1rem 0.7rem 1rem;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
-      width: 100%;
       min-width: 0;
       position: relative;
-      cursor: pointer;
-      transition: box-shadow 0.28s, transform 0.22s;
-      will-change: transform, box-shadow;
-    }
-    .widget:hover {
-      box-shadow: 0 9px 34px #56ffaa99, 0 0 12px #ffe78d88;
-      transform: scale(1.04);
-      z-index: 10;
     }
     .widget-title {
-      font-size: 1.09rem;
+      font-size: 1.01rem;
       font-weight: 700;
-      color: var(--color-title);
+      color: var(--term-cyan);
       margin-bottom: 7px;
-      letter-spacing: .08em;
+      margin-top: 0;
+      letter-spacing: .05em;
       user-select: none;
-      text-shadow: 0 0 6px #47fff144;
     }
-    /* grid areas */
-    .widget.langs{ grid-area:langs;}
-    .widget.commits{ grid-area:commits;}
-    .widget.stars{ grid-area:stars;}
-    .widget.prvsissues{ grid-area:prvsissues;}
-    /* Legend list */
     .legend-list {
-      display: flex; flex-wrap: wrap; gap: 8px; margin-top: 1px;
-      margin-bottom:4px;
+      display: flex; flex-wrap: wrap; gap: 9px; margin-top: 7px; margin-bottom:6px;
     }
     .legend-item {
-      display: flex; align-items: center; gap: 4px;
-      font-size: 0.96rem; color: var(--color-secondary);
+      display: flex; align-items: center; gap: 5px;
+      font-size: .94rem;
+      color: var(--term-label);
       margin-right: 7px;
-      cursor:pointer;
-      opacity:.91;
-      border-radius:6px;
+      border-radius: 7px;
       padding: 1px 5px;
-      transition:color .14s, box-shadow .18s;
+      transition:color .1s, background 0.11s;
+      background: #171918;
+      outline: 1px solid #232e24;
+      opacity: .92;
     }
     .legend-item:hover {
-      color: var(--color-accent);
-      box-shadow: 0 0 9px 2px #2cfff922;
+      color: var(--term-cyan);
+      background: #141b14;
       opacity:1;
     }
-    .legend-color { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+    .legend-color {
+      width: 12px;
+      height: 12px;
+      border-radius: 1px;
+      border: 1.2px solid #36ffb4;
+      display: inline-block;
+    }
     canvas {
-      margin-top: 6px;
-      background: #191922;
-      border-radius: 8px;
-      max-width: 340px !important;
-      width: 96% !important;
-      height: 170px !important;
-      box-shadow: 0 0 16px 2px #00fff955;
-      transition: box-shadow .21s;
-      display:block;
+      margin-top: 5px;
+      background: #171d18;
+      border-radius: 7px;
+      max-width: 285px !important;
+      width: 94% !important;
+      height: 118px !important;
+      border: 1.5px solid #252e27;
+      box-shadow: none;
     }
-    canvas:hover {
-      box-shadow: 0 0 32px #ffe78daa, 0 0 3px #ed5e80cc;
-    }
-    @media (max-width: 960px) {
+    canvas:hover { border-color: var(--term-cyan);}
+    /* grid mapping */
+    .widget.langs{grid-area:langs;}
+    .widget.commits{grid-area:commits;}
+    .widget.stars{grid-area:stars;}
+    .widget.prvsissues{grid-area:prvsissues;}
+    @media (max-width: 900px) {
       .dashboard-grid { grid-template-columns: 1fr;}
-      .main-panel { grid-template-columns: 1fr; gap:12px;}
+      .main-panel { grid-template-columns: 1fr; gap:9px; }
     }
-    @media (max-width: 560px) {
-      h1 { font-size: 1.22rem; }
-      .profile-card {padding:1.05rem 0.3rem;}
-      .main-panel { gap: 7px;}
-      form { flex-direction: column; gap: 9px;max-width:284px;}
+    @media (max-width: 520px) {
+      h1 { font-size: 1.03rem; }
+      .profile-card {padding:0.92rem 0.21rem;}
+      .main-panel { gap: 5px;}
+      form { max-width:98vw; flex-direction:column;gap:7px;}
       .legend-list{flex-wrap:wrap;gap:5px;}
+      canvas{height:85px !important;}
     }
-    ::selection { background:#d1fff555; }
+    ::selection { background:#24fa9420; }
   </style>
 </head>
 <body>
-  <h1>GitHub Analyzer</h1>
+  <h1>GitHub Analyzer ░▒▓ (Terminal)</h1>
   <form method="POST" action="/analyzer">
     <input name="username" placeholder="Enter GitHub username" required />
     <button type="submit">Analyze</button>
   </form>
   <% if (error) { %>
-    <div class="error" style="color:#ff8a73;font-weight:700;background:#270218ee;margin:19px 0;padding:13px 16px;border-radius:8px;text-align:center;"><%= error %></div>
+    <div class="error" style="color:#e1e546;font-weight:700;background:#212417e0;margin:19px 0;padding:10px 14px;border-radius:8px;text-align:center;border:1.7px solid var(--term-yellow)"><%= error %></div>
   <% } %>
   <% if (data) { %>
     <div class="dashboard-grid">
-      <!-- Sidebar: Profile & Stats -->
       <div class="sidebar">
         <div class="profile-card">
           <img class="profile-avatar" src="<%= data.avatar %>" alt="User Avatar" />
@@ -346,10 +321,10 @@
           <div class="widget-title">Top Languages</div>
           <canvas id="languageChart"></canvas>
           <div class="legend-list">
-            <% const colors=['#ffe78d','#a871ff','#2ecbff','#56ffaa','#ed5e80','#ffc145','#31e6d4','#fff6ae','#79c3fa']; let i=0;
-            for (let lang in data.languages) { %>
+            <% const termColors=['#24fa94','#44fff8','#ffe78d','#e1e546','#a871ff','#ed5e80','#ffe78d','#d3ff5a','#45a5fa','#b2ffa1'];let i=0;
+               for(let lang in data.languages) { %>
               <div class="legend-item">
-                <span class="legend-color" style="background:<%= colors[i % colors.length] %>"></span>
+                <span class="legend-color" style="background:<%= termColors[i % termColors.length] %>"></span>
                 <span><%= lang %></span>
               </div>
             <% i++; } %>
@@ -375,39 +350,38 @@
       // Animated stat numbers
       document.querySelectorAll('[data-animate-number]').forEach(el => {
         const final = +el.dataset.animateNumber;
-        let frame = 0, totalFrames = 33, start = 0;
+        let frame = 0, totalFrames = 23, start = 0;
         function animateNum() {
-          el.textContent = Math.round(start + (final-start)* frame / totalFrames).toLocaleString();
+          el.textContent = Math.round(final* frame / totalFrames).toLocaleString();
           if (frame++ < totalFrames) requestAnimationFrame(animateNum);
           else el.textContent = final.toLocaleString();
         }
         animateNum();
       });
-
-      // Chart.js graphs
+      // Terminal color palette
+      const termColors = ['#24fa94','#44fff8','#ffe78d','#e1e546','#a871ff','#ed5e80','#ffe78d','#d3ff5a','#45a5fa','#b2ffa1'];
+      // Top Languages Chart
       const languageData = <%- JSON.stringify(data.languages) %>;
       const langLabels = Object.keys(languageData);
       const langValues = Object.values(languageData);
-      const langColors = ['#ffe78d','#a871ff','#2ecbff','#56ffaa','#ed5e80','#ffc145','#31e6d4','#fff6ae','#79c3fa'];
       new Chart(document.getElementById('languageChart'), {
         type: 'doughnut',
         data: {
           labels: langLabels,
           datasets: [{
             data: langValues,
-            backgroundColor: langColors,
-            borderWidth: 3,
-            borderColor: '#171726'
+            backgroundColor: termColors,
+            borderWidth: 2,
+            borderColor: '#161818'
           }]
         },
         options: {
-          plugins: {legend: { display: false }},
-          cutout: '75%',
-          animation: { animateRotate:true, animateScale:true, duration:1100 },
+          plugins: { legend: { display: false }},
+          cutout: '80%',
+          animation: { animateRotate:true, animateScale:true, duration:900 },
         }
       });
-
-      // Commits Over Last Year (Line)
+      // Commits by Month (Line)
       const commitsData = <%- JSON.stringify(data.commitsPerMonth || { Jan: 0, Feb: 0, Mar: 0, Apr: 0, May: 0, Jun: 0, Jul: 0, Aug: 0, Sep: 0, Oct: 0, Nov: 0, Dec: 0 }) %>;
       new Chart(document.getElementById('commitsChart').getContext('2d'), {
         type: 'line',
@@ -416,23 +390,22 @@
           datasets: [{
             label: 'Commits',
             data: Object.values(commitsData),
-            borderColor: '#2ecbff',
-            backgroundColor: 'rgba(46,203,255,0.11)',
+            borderColor: '#24fa94',
+            backgroundColor: 'rgba(36,250,148,0.1)',
             fill:true,
-            tension: 0.4,
-            pointBackgroundColor: '#ffe78d',
+            tension: 0.3,
+            pointBackgroundColor: '#e1e546'
           }]
         },
         options: {
           plugins: { legend: { display: false }},
           scales: {
-            x: { ticks: { color: "#babccb" }, grid: {color:'#232237'} },
-            y: { ticks: { color: "#babccb" }, grid: {color:'#222'} }
+            x: { ticks: { color: "#fafaff"}, grid: {color:'#242b2455'} },
+            y: { ticks: { color: "#b7d7c9" }, grid: {color:'#22292144'}}
           },
-          animation: { duration:950, easing:'easeOutQuart' }
+          animation: { duration:820, easing:'easeInOutSine' }
         }
       });
-
       // Stars per Repository (Bar)
       const starsData = <%- JSON.stringify(data.starsPerRepo || {}) %>;
       new Chart(document.getElementById('starsChart').getContext('2d'), {
@@ -442,21 +415,20 @@
           datasets: [{
             label: "Stars",
             data: Object.values(starsData),
-            backgroundColor: '#ffe78d',
-            borderRadius:8,
+            backgroundColor: '#e1e546',
+            borderRadius:6,
             borderWidth: 0,
           }]
         },
         options: {
           plugins: { legend: { display: false } },
           scales: {
-            x: { ticks: { color: "#babccb", maxRotation:45, minRotation:45 }, grid:{color:'#232237'} },
-            y: { ticks: { color: "#babccb" }, grid: {color:'#222'}}
+            x: { ticks: { color: "#fafaff" }, grid:{color:'#23232744'} },
+            y: { ticks: { color: "#b1e7c7" }, grid: {color:'#24292244'}}
           },
-          animation: {duration:890}
+          animation: {duration:680}
         }
       });
-
       // PRs vs Issues (Pie)
       const prCount = <%- JSON.stringify(data.totalPRs) %>;
       const issuesCount = <%- JSON.stringify(data.totalIssues) %>;
@@ -466,17 +438,16 @@
           labels: ["Pull Requests", "Issues"],
           datasets: [{
             data: [prCount, issuesCount],
-            backgroundColor: ["#37b5ff", "#ed5e80"],
-            borderColor: "#171726",
-            borderWidth: 3,
+            backgroundColor: ["#24fa94", "#e1e546"],
+            borderColor: "#181c1d",
+            borderWidth: 2,
           }]
         },
         options: {
-          plugins: { legend: { labels: { color: "#fafaff", font: {size: 15}} } },
-          animation: { animateScale:true, animateRotate:true, duration:1100 }
+          plugins: { legend: { labels: { color: "#24fa94", font: {size: 14}} } },
+          animation: { animateScale:true, animateRotate:true, duration:900 }
         }
       });
-
       feather.replace();
     </script>
   <% } %>
