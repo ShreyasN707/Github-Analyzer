@@ -1,0 +1,3 @@
+const compare=(req,res)=>{
+    
+}
