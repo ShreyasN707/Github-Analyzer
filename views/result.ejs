@@ -2,29 +2,28 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GitHub Analyzer - Terminal Style</title>
+  <title>GitHub Analyzer - Crystal Glass</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://unpkg.com/feather-icons"></script>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <!-- Best modern highly-legible font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --term-bg: #161818;
-      --panel-bg: #1b1d1e;
-      --card-border: #252e27;
-      --card-radius: 13px;
-      --card-shadow: 0 2px 18px #202c2044;
-      --term-accent: #36ffb4;
-      --term-accent-faint: #46eeae31;
-      --term-cyan: #77edf4;
-      --term-yellow: #e3df85;
-      --term-text: #e6ffe9;
-      --term-label: #b5bcb7;
+      --deep-black: #0b0b0c;
+      --glass-bg: rgba(18,24,31,0.33);
+      --crystal-outline: rgba(255,255,255,0.44);
+      --font-main: 'Inter', 'Space Grotesk', 'Segoe UI', Arial, sans-serif;
+      --accent-green: #36ffb4;
+      --accent-cyan: #44fff8;
+      --text-glow: 0 0 10px #ffffff10;
+      --panel-radius: 18px;
+      --panel-shadow: 0 4px 28px #000a, 0 1px 32px #44fff814;
     }
     body {
-      background: var(--term-bg);
+      background: var(--deep-black);
       min-height: 100vh;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--term-text);
+      font-family: var(--font-main);
+      color: #f9f9fb;
       margin: 0;
       padding: 0;
       display: flex;
@@ -34,222 +33,231 @@
     }
     h1 {
       margin: 42px 0 24px 0;
-      font-size: 2.1rem;
+      font-size: 2.3rem;
       font-weight: 700;
-      color: var(--term-accent);
-      border-left: 6px solid var(--term-accent);
-      padding-left: 15px;
-      background: transparent;
-      letter-spacing: 2px;
+      color: #fff;
+      text-shadow: var(--text-glow);
       user-select: none;
+      letter-spacing: 2px;
+      font-family: 'Space Grotesk', 'Inter', Arial, sans-serif;
+      text-align:center;
     }
     form {
-      background: var(--panel-bg);
-      border: 1.5px solid var(--card-border);
-      border-radius: var(--card-radius);
-      padding: 11px 16px;
+      background: var(--glass-bg);
+      border: 2.2px solid var(--crystal-outline);
+      border-radius: var(--panel-radius);
+      padding: 15px 20px;
       display: flex;
-      gap: 11px;
-      margin-bottom: 30px;
-      box-shadow: var(--card-shadow);
+      gap: 12px;
+      margin-bottom: 34px;
+      box-shadow: var(--panel-shadow);
       min-width: 340px;
       max-width: 98vw;
+      backdrop-filter: blur(18px) saturate(170%);
     }
     input, button {
-      font-family: inherit;
-      font-size: 1.03rem;
-      border-radius: 6px;
+      font-family: var(--font-main);
+      font-size: 1.11rem;
+      border-radius: 8px;
       border: none;
       outline: none;
+      font-weight: 500;
     }
     input {
-      background: #141715;
-      color: var(--term-text);
-      padding: 10px 12px;
-      border: 1.35px solid #2a2d24;
+      background: rgba(255,255,255,0.09);
+      color: #fff;
+      padding: 10px 14px;
+      border: 1.5px solid rgba(255,255,255,0.22);
       min-width: 160px;
-      transition: border-color .12s;
+      transition: border-color .15s, background .2s;
+      backdrop-filter: blur(8px) saturate(200%);
+      font-family: 'Inter', 'Space Grotesk', Arial, sans-serif;
+      letter-spacing:.03em;
     }
-    input:focus { border-color: var(--term-accent);}
+    input:focus { border-color: var(--accent-green); background: rgba(54,255,180,0.07);}
     button {
-      background: var(--term-accent);
-      color: #161818;
+      background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+      color: #090e12;
       font-weight: 700;
-      padding: 10px 20px;
+      letter-spacing: 1.2px;
+      padding: 11px 26px;
       cursor: pointer;
       border: none;
-      box-shadow: 0 2px 12px #34eab144;
-      transition: background .18s;
+      box-shadow: 0 2px 18px #44fff8a7;
+      transition: filter .17s, box-shadow .19s;
     }
     button:hover {
-      background: var(--term-cyan);
-      color: #131818;
+      filter:brightness(1.10) drop-shadow(0 0 7px #44fff899);
     }
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 36px;
-      max-width: 1100px;
-      margin: 0 auto;
-      margin-bottom: 45px;
-      width: 93vw;
+      grid-template-columns: 300px 1fr;
+      gap: 38px;
+      max-width: 1150px;
+      margin: 0 auto 40px auto;
+      width: 92vw;
     }
     .sidebar {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 22px;
       min-width: 220px;
     }
     .profile-card {
-      background: var(--panel-bg);
-      border: 1.5px solid var(--card-border);
-      border-radius: var(--card-radius);
-      padding: 1.4rem 1.2rem 1.15rem 1.2rem;
+      background: var(--glass-bg);
+      border: 2px solid var(--crystal-outline);
+      border-radius: var(--panel-radius);
+      padding: 1.3rem 1.2rem 1.15rem 1.2rem;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 220px;
-      box-shadow: var(--card-shadow);
+      box-shadow: var(--panel-shadow);
+      backdrop-filter: blur(34px) saturate(170%);
     }
     .profile-avatar {
       border-radius: 50%;
-      width: 64px;
-      height: 64px;
-      margin-bottom: 10px;
-      border: 2.2px solid var(--term-accent);
+      width: 74px;
+      height: 74px;
+      margin-bottom: 12px;
+      border: 2.5px solid var(--accent-green);
       object-fit: cover;
-      background: #171f1c;
-      box-shadow: none;
+      background: rgba(10,15,18,0.18);
+      box-shadow: 0 1px 18px #00ffe644;
     }
     .profile-username {
-      font-size: 1.08rem;
+      font-size: 1.15rem;
       font-weight: 700;
-      color: var(--term-accent);
-      letter-spacing: .09em;
-      margin-bottom: 5px;
+      color: #fff;
+      font-family: 'Space Grotesk', 'Inter', Arial, sans-serif;
+      margin-bottom: 4px;
+      letter-spacing: .1em;
+      text-shadow: var(--text-glow);
     }
     .profile-handle {
-      color: var(--term-cyan);
-      font-size: .97rem;
+      color: var(--accent-cyan);
+      font-size: .99rem;
       margin-bottom: 8px;
+      font-family: 'JetBrains Mono',monospace;
+      opacity:.94;
     }
     .profile-bio {
-      color: var(--term-label);
-      font-size: .96rem;
+      color: #e4eaed;
+      font-size: .97rem;
       text-align: center;
-      min-height: 14px;
-      margin-bottom: 12px;
+      min-height: 15px;
+      opacity:.92;
     }
     .stats-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
-      margin-top: 3px;
+      margin-top: 7px;
       width: 100%;
     }
     .stat-box {
-      background: #181c19;
-      border-radius: 7px;
-      border: 1.2px solid #232e24;
+      background: rgba(255,255,255,0.11);
+      border-radius: 9px;
+      border: 1.2px solid rgba(255,255,255,0.22);
       text-align: center;
-      padding: 6px 3px 7px 3px;
+      padding: 10px 3px 8px 3px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      font-size: .95rem;
-      transition: border-color .17s;
-      box-shadow: 0 1.5px 7px #141c13aa inset;
+      font-size: .98rem;
+      font-family: var(--font-main);
+      box-shadow: 0 1.5px 7px #12fff422 inset;
+      transition: border-color .17s, box-shadow .18s;
+      backdrop-filter: blur(11px) saturate(180%);
     }
-    .stat-box:hover {
-      border-color: var(--term-cyan);
-      color: var(--term-cyan);
-      z-index: 9;
-    }
+    .stat-box:hover { border-color: var(--accent-cyan); box-shadow: 0 2px 17px #44fff833; }
     .stat-value {
       font-weight: 700;
-      font-size: 1.04rem;
-      color: var(--term-yellow);
-      letter-spacing: 0.01em;
+      font-size: 1.07rem;
+      color: var(--accent-green);
       margin-bottom: 2px;
       margin-top: 0;
+      font-family:'Space Grotesk','Inter',Arial,sans-serif;
       transition: color 0.13s;
     }
-    .stat-box:hover .stat-value {
-      color: var(--term-accent);
-    }
+    .stat-box:hover .stat-value { color: var(--accent-cyan);}
     .stat-label {
       font-size: .97rem;
-      color: var(--term-label);
-      letter-spacing: 0.03em;
+      color: #e6edef;
+      opacity:.78;
+      letter-spacing: 0.07em;
+      font-family: var(--font-main);
       padding-top:1px;
     }
     .main-panel {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 26px;
+      gap: 32px;
       grid-template-areas:
         "langs commits"
         "stars prvsissues";
     }
     .widget {
-      background: var(--panel-bg);
-      border-radius: var(--card-radius);
-      border: 1.7px solid var(--card-border);
-      box-shadow: var(--card-shadow);
-      padding: 0.85rem 1rem 0.7rem 1rem;
+      background: var(--glass-bg);
+      border-radius: var(--panel-radius);
+      border: 2px solid var(--crystal-outline);
+      box-shadow: var(--panel-shadow);
+      padding: 1.2rem 1.35rem 1rem 1.35rem;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       min-width: 0;
       position: relative;
+      margin-bottom:10px;
+      backdrop-filter: blur(28px) saturate(160%);
     }
     .widget-title {
-      font-size: 1.01rem;
+      font-size: 1.07rem;
+      font-family: 'Space Grotesk','Inter',Arial,sans-serif;
       font-weight: 700;
-      color: var(--term-cyan);
-      margin-bottom: 7px;
-      margin-top: 0;
-      letter-spacing: .05em;
+      color: #fff;
+      margin-bottom: 10px;
+      letter-spacing: .08em;
       user-select: none;
+      text-shadow:0 0 3px #36ffb455;
     }
     .legend-list {
-      display: flex; flex-wrap: wrap; gap: 9px; margin-top: 7px; margin-bottom:6px;
+      display: flex; flex-wrap: wrap; gap: 9px; margin-top: 8px; margin-bottom:8px;
     }
     .legend-item {
       display: flex; align-items: center; gap: 5px;
-      font-size: .94rem;
-      color: var(--term-label);
+      font-size: .93rem;
+      color: #e8fdfe;
       margin-right: 7px;
       border-radius: 7px;
-      padding: 1px 5px;
-      transition:color .1s, background 0.11s;
-      background: #171918;
-      outline: 1px solid #232e24;
-      opacity: .92;
+      padding: 1px 6px;
+      background: rgba(255,255,255,0.09);
+      outline: 1px solid rgba(255,255,255,0.12);
+      opacity: .94;
+      font-family: 'Inter', 'JetBrains Mono',monospace;
     }
-    .legend-item:hover {
-      color: var(--term-cyan);
-      background: #141b14;
-      opacity:1;
-    }
+    .legend-item:hover { color: var(--accent-cyan); opacity:1;}
     .legend-color {
-      width: 12px;
-      height: 12px;
-      border-radius: 1px;
-      border: 1.2px solid #36ffb4;
-      display: inline-block;
+      width: 13px; height: 13px; border-radius: 2px;
+      border: 1.2px solid #36ffb4; display: inline-block;
     }
     canvas {
-      margin-top: 5px;
-      background: #171d18;
-      border-radius: 7px;
-      max-width: 285px !important;
-      width: 94% !important;
-      height: 118px !important;
-      border: 1.5px solid #252e27;
-      box-shadow: none;
+      margin-top: 12px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 11px;
+      width: 100% !important;
+      max-width: 415px !important;
+      min-width: 180px;
+      height: 185px !important;
+      max-height: 250px;
+      border: 1.5px solid rgba(255,255,255,0.15);
+      box-shadow: 0 4px 16px #44fff816;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      backdrop-filter: blur(5px) saturate(180%);
     }
-    canvas:hover { border-color: var(--term-cyan);}
+    canvas:hover { border-color: var(--accent-cyan);}
     /* grid mapping */
     .widget.langs{grid-area:langs;}
     .widget.commits{grid-area:commits;}
@@ -257,27 +265,31 @@
     .widget.prvsissues{grid-area:prvsissues;}
     @media (max-width: 900px) {
       .dashboard-grid { grid-template-columns: 1fr;}
-      .main-panel { grid-template-columns: 1fr; gap:9px; }
+      .main-panel { grid-template-columns: 1fr; gap:18px;}
+    }
+    @media (max-width: 700px) {
+      canvas { max-width:96vw; height: 120px !important;}
+      .widget {padding: 1.1rem 0.7rem;}
     }
     @media (max-width: 520px) {
-      h1 { font-size: 1.03rem; }
-      .profile-card {padding:0.92rem 0.21rem;}
-      .main-panel { gap: 5px;}
-      form { max-width:98vw; flex-direction:column;gap:7px;}
-      .legend-list{flex-wrap:wrap;gap:5px;}
-      canvas{height:85px !important;}
+      h1 { font-size: 1rem; }
+      .profile-card,.widget {padding:0.8rem 0.15rem;}
+      .main-panel { gap: 9px;}
+      form { max-width:98vw; flex-direction:column;gap:11px;}
+      .legend-list{flex-wrap:wrap;gap:4px;}
+      canvas{height:75px !important;}
     }
-    ::selection { background:#24fa9420; }
+    ::selection { background:#44fff823; }
   </style>
 </head>
 <body>
-  <h1>GitHub Analyzer ░▒▓ (Terminal)</h1>
+  <h1>GitHub Analyzer <span style="color:#36ffb4;">░▒▓ CRYSTAL</span></h1>
   <form method="POST" action="/analyzer">
     <input name="username" placeholder="Enter GitHub username" required />
     <button type="submit">Analyze</button>
   </form>
   <% if (error) { %>
-    <div class="error" style="color:#e1e546;font-weight:700;background:#212417e0;margin:19px 0;padding:10px 14px;border-radius:8px;text-align:center;border:1.7px solid var(--term-yellow)"><%= error %></div>
+    <div class="error" style="color:#ffe78d;font-weight:700;background:#282b18e6;margin:19px 0;padding:10px 14px;border-radius:8px;text-align:center;border:1.7px solid #ffe78d"><%= error %></div>
   <% } %>
   <% if (data) { %>
     <div class="dashboard-grid">
@@ -288,30 +300,12 @@
           <div class="profile-handle">@<%= data.username %></div>
           <div class="profile-bio"><%= data.bio || 'No bio provided.' %></div>
           <div class="stats-grid">
-            <div class="stat-box">
-              <div class="stat-value" data-animate-number="<%= data.followers %>">0</div>
-              <div class="stat-label">Followers</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" data-animate-number="<%= data.publicRepos %>">0</div>
-              <div class="stat-label">Repos</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" data-animate-number="<%= data.totalCommits %>">0</div>
-              <div class="stat-label">Commits</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" data-animate-number="<%= data.totalPRs %>">0</div>
-              <div class="stat-label">PRs</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" data-animate-number="<%= data.totalIssues %>">0</div>
-              <div class="stat-label">Issues</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-value" data-animate-number="<%= data.totalStars %>">0</div>
-              <div class="stat-label">Stars</div>
-            </div>
+            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.followers %>">0</div><div class="stat-label">Followers</div></div>
+            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.publicRepos %>">0</div><div class="stat-label">Repos</div></div>
+            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.totalCommits %>">0</div><div class="stat-label">Commits</div></div>
+            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.totalPRs %>">0</div><div class="stat-label">PRs</div></div>
+            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.totalIssues %>">0</div><div class="stat-label">Issues</div></div>
+            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.totalStars %>">0</div><div class="stat-label">Stars</div></div>
           </div>
         </div>
       </div>
@@ -319,7 +313,7 @@
       <div class="main-panel">
         <div class="widget langs">
           <div class="widget-title">Top Languages</div>
-          <canvas id="languageChart"></canvas>
+          <canvas id="languageChart" width="420" height="220"></canvas>
           <div class="legend-list">
             <% const termColors=['#24fa94','#44fff8','#ffe78d','#e1e546','#a871ff','#ed5e80','#ffe78d','#d3ff5a','#45a5fa','#b2ffa1'];let i=0;
                for(let lang in data.languages) { %>
@@ -332,15 +326,15 @@
         </div>
         <div class="widget commits">
           <div class="widget-title">Commits Over Last Year</div>
-          <canvas id="commitsChart"></canvas>
+          <canvas id="commitsChart" width="440" height="180"></canvas>
         </div>
         <div class="widget stars">
           <div class="widget-title">Stars per Repository</div>
-          <canvas id="starsChart"></canvas>
+          <canvas id="starsChart" width="440" height="180"></canvas>
         </div>
         <div class="widget prvsissues">
           <div class="widget-title">PRs vs Issues</div>
-          <canvas id="prvsissuesChart"></canvas>
+          <canvas id="prvsissuesChart" width="320" height="180"></canvas>
         </div>
       </div>
     </div>
@@ -350,7 +344,7 @@
       // Animated stat numbers
       document.querySelectorAll('[data-animate-number]').forEach(el => {
         const final = +el.dataset.animateNumber;
-        let frame = 0, totalFrames = 23, start = 0;
+        let frame = 0, totalFrames = 21, start = 0;
         function animateNum() {
           el.textContent = Math.round(final* frame / totalFrames).toLocaleString();
           if (frame++ < totalFrames) requestAnimationFrame(animateNum);
@@ -358,9 +352,9 @@
         }
         animateNum();
       });
-      // Terminal color palette
+      // Crystal palette for charts
       const termColors = ['#24fa94','#44fff8','#ffe78d','#e1e546','#a871ff','#ed5e80','#ffe78d','#d3ff5a','#45a5fa','#b2ffa1'];
-      // Top Languages Chart
+      // Languages Pie
       const languageData = <%- JSON.stringify(data.languages) %>;
       const langLabels = Object.keys(languageData);
       const langValues = Object.values(languageData);
@@ -372,7 +366,7 @@
             data: langValues,
             backgroundColor: termColors,
             borderWidth: 2,
-            borderColor: '#161818'
+            borderColor: '#131a16'
           }]
         },
         options: {
@@ -381,7 +375,7 @@
           animation: { animateRotate:true, animateScale:true, duration:900 },
         }
       });
-      // Commits by Month (Line)
+      // Commits by Month
       const commitsData = <%- JSON.stringify(data.commitsPerMonth || { Jan: 0, Feb: 0, Mar: 0, Apr: 0, May: 0, Jun: 0, Jul: 0, Aug: 0, Sep: 0, Oct: 0, Nov: 0, Dec: 0 }) %>;
       new Chart(document.getElementById('commitsChart').getContext('2d'), {
         type: 'line',
@@ -390,20 +384,20 @@
           datasets: [{
             label: 'Commits',
             data: Object.values(commitsData),
-            borderColor: '#24fa94',
-            backgroundColor: 'rgba(36,250,148,0.1)',
+            borderColor: '#44fff8',
+            backgroundColor: 'rgba(68,255,248,0.10)',
             fill:true,
-            tension: 0.3,
-            pointBackgroundColor: '#e1e546'
+            tension: 0.32,
+            pointBackgroundColor: '#36ffb4'
           }]
         },
         options: {
           plugins: { legend: { display: false }},
           scales: {
-            x: { ticks: { color: "#fafaff"}, grid: {color:'#242b2455'} },
-            y: { ticks: { color: "#b7d7c9" }, grid: {color:'#22292144'}}
+            x: { ticks: { color: "#e8fdfe"}, grid: {color:'#282a3355'} },
+            y: { ticks: { color: "#e1efee" }, grid: {color:'#222c2944'}}
           },
-          animation: { duration:820, easing:'easeInOutSine' }
+          animation: { duration:860, easing:'easeInOutQuad' }
         }
       });
       // Stars per Repository (Bar)
@@ -415,7 +409,7 @@
           datasets: [{
             label: "Stars",
             data: Object.values(starsData),
-            backgroundColor: '#e1e546',
+            backgroundColor: '#ffe78d',
             borderRadius:6,
             borderWidth: 0,
           }]
@@ -423,13 +417,13 @@
         options: {
           plugins: { legend: { display: false } },
           scales: {
-            x: { ticks: { color: "#fafaff" }, grid:{color:'#23232744'} },
-            y: { ticks: { color: "#b1e7c7" }, grid: {color:'#24292244'}}
+            x: { ticks: { color: "#e8fdfe" }, grid:{color:'#24252944'} },
+            y: { ticks: { color: "#f7fee6" }, grid: {color:'#23282244'}}
           },
-          animation: {duration:680}
+          animation: {duration:670}
         }
       });
-      // PRs vs Issues (Pie)
+      // PRs vs Issues
       const prCount = <%- JSON.stringify(data.totalPRs) %>;
       const issuesCount = <%- JSON.stringify(data.totalIssues) %>;
       new Chart(document.getElementById('prvsissuesChart').getContext('2d'), {
@@ -438,13 +432,13 @@
           labels: ["Pull Requests", "Issues"],
           datasets: [{
             data: [prCount, issuesCount],
-            backgroundColor: ["#24fa94", "#e1e546"],
-            borderColor: "#181c1d",
+            backgroundColor: ["#36ffb4", "#ffe78d"],
+            borderColor: "#131a16",
             borderWidth: 2,
           }]
         },
         options: {
-          plugins: { legend: { labels: { color: "#24fa94", font: {size: 14}} } },
+          plugins: { legend: { labels: { color: "#36ffb4", font: {size: 14}} } },
           animation: { animateScale:true, animateRotate:true, duration:900 }
         }
       });
