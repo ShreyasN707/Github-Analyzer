@@ -1,16 +1,12 @@
+// ✅ analyzerfetch.js
 const axios = require('axios');
 
-const analyzerfetch = async (req, res) => {
-    const username = req.body.username;
+const analyzerfetch = async (username) => {
     const token = process.env.TOKEN;
-
-    if (!username) {
-        return res.render("index", { error: "Please enter a username", data: null });
-    }
 
     const query = `
         query {
-            user(login: "${username}") {
+            user(login: "${user1}") {
                 name
                 bio
                 avatarUrl
@@ -57,18 +53,7 @@ const analyzerfetch = async (req, res) => {
 
     const user = response.data.data.user;
 
-    let totalStars = 0;
-    let totalForks = 0;
-    let languages = {};
-
-    user.repositories.nodes.forEach(repo => {
-        totalStars += repo.stargazerCount;
-        totalForks += repo.forkCount;
-
-        repo.languages.nodes.forEach(lang => {
-            languages[lang.name] = (languages[lang.name] || 0) + 1;
-        });
-    });
+    // processing logic...
 
     const result = {
         name: user.name,
@@ -85,9 +70,7 @@ const analyzerfetch = async (req, res) => {
         languages,
     };
 
-    console.log(result)
-    // res.json({ data: result, error: null });
-    res.status(200).render('result',{data:result,error:null})
+    return result;
 };
 
 module.exports = { analyzerfetch };
