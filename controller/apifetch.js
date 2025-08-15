@@ -1,7 +1,7 @@
 // ✅ analyzerfetch.js
 const axios = require('axios');
 
-const analyzerfetch = async (username) => {
+const analyzerfetch = async (user1) => {
     const token = process.env.TOKEN;
 
     const query = `
@@ -53,7 +53,22 @@ const analyzerfetch = async (username) => {
 
     const user = response.data.data.user;
 
-    // processing logic...
+    // ✅ Calculate total stars
+    let totalStars = 0;
+    let totalForks = 0;
+    let languageSet = new Set();
+
+    user.repositories.nodes.forEach(repo => {
+        totalStars += repo.stargazerCount;
+        totalForks += repo.forkCount;
+
+        repo.languages.nodes.forEach(lang => {
+            languageSet.add(lang.name);
+        });
+    });
+
+    // Convert Set to Array
+    const languages = Array.from(languageSet);
 
     const result = {
         name: user.name,

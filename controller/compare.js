@@ -12,10 +12,6 @@ const compare=(req,res)=>{
         let result=analyzerfetch(user1);
         res.status(200).render('result',{data:result,error:null})
     }
-
-    if(user2!=none){
-        
-    }
 }
 
 module.exports={
