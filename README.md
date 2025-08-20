@@ -32,9 +32,52 @@ Built with **Node.js + Express + EJS**, this project is perfect for developers w
 
 ---
 
+📂 Project Structure:
+
+github-analyzer/
+│── controllers/
+│   ├── api.fetch.js     # Fetch GitHub user data from API
+│   ├── compare.js       # Compare two GitHub users
+│
+│── routes/
+│   └── gitroutes.js     # Express routes for fetching & comparing
+│
+│── views/
+│   ├── index.ejs        # Landing page (search input)
+│   ├── result.ejs       # Output page for single user data
+│   └── compared.ejs     # Output page for two-user comparison
+│
+│── .gitignore           # Ignored files (node_modules, .env, etc.)
+│── .env                 # Environment variables (GitHub token, port, etc.)
+│── package.json         # Project metadata & scripts
+│── server.js            # Main server entry point
+│── README.md            # Project documentation
+
+---------------------------------------------------------------------------
+
 ## 🚀 Getting Started  
 
 ### 1️⃣ Clone the repo  
 ```bash
 git clone https://github.com/ShreyasN707/Github-Analyzer.git
 cd github-analyzer
+
+### 2️⃣ Install dependencies
+npm install
+
+### 3️⃣ Run the project
+npm run dev
+
+Project will start on : http://localhost:3000/  🎉
+
+--------------------------------------------------------
+
+📌 Future Improvements:
+
+📊 Add charts for repositories & contributions
+
+📱 Improve mobile responsiveness
+
+🔒 Add caching to reduce API calls
+
+---------------------------------------------------------
