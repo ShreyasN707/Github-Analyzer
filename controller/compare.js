@@ -6,6 +6,7 @@ const compare = async (req, res) => {
   const user1 = req.body.user1;
   const user2 = req.body.user2;
 
+
   if (!user1) {
     return res.render("index", { error: "Please enter a username", data: null });
   }
@@ -22,6 +23,7 @@ const compare = async (req, res) => {
     // You can combine the results if needed or send both
     return res.render('compared', { data: { user1: result1, user2: result2 }, error: null });
   }
+
 };
 
 module.exports = { compare };
