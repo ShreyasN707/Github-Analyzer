@@ -37,11 +37,10 @@ Built with **Node.js + Express + EJS + Axios**, this project is perfect for deve
 github-analyzer/
 │── controllers/
 │   ├── api.fetch.js     # Fetch GitHub user data from API
-│   ├── compare.js       # Compare two GitHub users
+│   ├── compare.js       # Separates incomming request for single user or comparing users
 │
 │── routes/
-│   └── gitroutes.js     # Express routes for fetching & comparing
-│
+│   └── gitroutes.js     # Express routes for GET & POST requests
 │── views/
 │   ├── index.ejs        # Landing page (search input)
 │   ├── result.ejs       # Output page for single user data
@@ -56,6 +55,15 @@ github-analyzer/
 ---------------------------------------------------------------------------
 
 ## 🚀 Getting Started  
+
+### 🔑 Environment Variables  
+
+Create a `.env` file in the root directory and add the following:  
+
+```env
+PORT=3000                # Port number for the server (default: 3000)
+GITHUB_TOKEN=your_token  # (Optional) GitHub Personal Access Token to increase API rate limits
+
 
 ### 1️⃣ Clone the repo  
 ```bash
@@ -81,3 +89,10 @@ Project will start on : http://localhost:3000/  🎉
 🔒 Add caching to reduce API calls
 
 ---------------------------------------------------------
+
+## 🧑‍💻 Author  
+
+**Shreyas N**  
+
+- 🌐 GitHub: [@ShreyasN707](https://github.com/ShreyasN707)  
+- 💼 LinkedIn: [Shreyas N](https://www.linkedin.com/in/shreyas-n-44717b332)  
