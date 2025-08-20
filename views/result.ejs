@@ -2,448 +2,222 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>GitHub Analyzer - Crystal Glass</title>
+  <title>GitHub Analyzer</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://unpkg.com/feather-icons"></script>
-  <!-- Best modern highly-legible font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <style>
-    :root {
-      --deep-black: #0b0b0c;
-      --glass-bg: rgba(18,24,31,0.33);
-      --crystal-outline: rgba(255,255,255,0.44);
-      --font-main: 'Inter', 'Space Grotesk', 'Segoe UI', Arial, sans-serif;
-      --accent-green: #36ffb4;
-      --accent-cyan: #44fff8;
-      --text-glow: 0 0 10px #ffffff10;
-      --panel-radius: 18px;
-      --panel-shadow: 0 4px 28px #000a, 0 1px 32px #44fff814;
-    }
     body {
-      background: var(--deep-black);
-      min-height: 100vh;
-      font-family: var(--font-main);
-      color: #f9f9fb;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
       margin: 0;
       padding: 0;
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      letter-spacing: .01em;
     }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      padding: 20px;
+      margin: 20px 0;
+      width: 90%;
+      max-width: 1000px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
     h1 {
-      margin: 42px 0 24px 0;
-      font-size: 2.3rem;
+      margin-top: 30px;
+      font-size: 2.5rem;
       font-weight: 700;
-      color: #fff;
-      text-shadow: var(--text-glow);
-      user-select: none;
-      letter-spacing: 2px;
-      font-family: 'Space Grotesk', 'Inter', Arial, sans-serif;
-      text-align:center;
+      text-align: center;
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    form {
-      background: var(--glass-bg);
-      border: 2.2px solid var(--crystal-outline);
-      border-radius: var(--panel-radius);
-      padding: 15px 20px;
+
+    .profile {
       display: flex;
-      gap: 12px;
-      margin-bottom: 34px;
-      box-shadow: var(--panel-shadow);
-      min-width: 340px;
-      max-width: 98vw;
-      backdrop-filter: blur(18px) saturate(170%);
-    }
-    input, button {
-      font-family: var(--font-main);
-      font-size: 1.11rem;
-      border-radius: 8px;
-      border: none;
-      outline: none;
-      font-weight: 500;
-    }
-    input {
-      background: rgba(255,255,255,0.09);
-      color: #fff;
-      padding: 10px 14px;
-      border: 1.5px solid rgba(255,255,255,0.22);
-      min-width: 160px;
-      transition: border-color .15s, background .2s;
-      backdrop-filter: blur(8px) saturate(200%);
-      font-family: 'Inter', 'Space Grotesk', Arial, sans-serif;
-      letter-spacing:.03em;
-    }
-    input:focus { border-color: var(--accent-green); background: rgba(54,255,180,0.07);}
-    button {
-      background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
-      color: #090e12;
-      font-weight: 700;
-      letter-spacing: 1.2px;
-      padding: 11px 26px;
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 2px 18px #44fff8a7;
-      transition: filter .17s, box-shadow .19s;
-    }
-    button:hover {
-      filter:brightness(1.10) drop-shadow(0 0 7px #44fff899);
-    }
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 38px;
-      max-width: 1150px;
-      margin: 0 auto 40px auto;
-      width: 92vw;
-    }
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 22px;
-      min-width: 220px;
-    }
-    .profile-card {
-      background: var(--glass-bg);
-      border: 2px solid var(--crystal-outline);
-      border-radius: var(--panel-radius);
-      padding: 1.3rem 1.2rem 1.15rem 1.2rem;
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      min-height: 220px;
-      box-shadow: var(--panel-shadow);
-      backdrop-filter: blur(34px) saturate(170%);
+      gap: 15px;
     }
-    .profile-avatar {
+
+    .profile img {
       border-radius: 50%;
-      width: 74px;
-      height: 74px;
-      margin-bottom: 12px;
-      border: 2.5px solid var(--accent-green);
-      object-fit: cover;
-      background: rgba(10,15,18,0.18);
-      box-shadow: 0 1px 18px #00ffe644;
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(255,255,255,0.3);
     }
-    .profile-username {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: #fff;
-      font-family: 'Space Grotesk', 'Inter', Arial, sans-serif;
-      margin-bottom: 4px;
-      letter-spacing: .1em;
-      text-shadow: var(--text-glow);
-    }
-    .profile-handle {
-      color: var(--accent-cyan);
-      font-size: .99rem;
-      margin-bottom: 8px;
-      font-family: 'JetBrains Mono',monospace;
-      opacity:.94;
-    }
-    .profile-bio {
-      color: #e4eaed;
-      font-size: .97rem;
-      text-align: center;
-      min-height: 15px;
-      opacity:.92;
-    }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 7px;
-      width: 100%;
-    }
-    .stat-box {
-      background: rgba(255,255,255,0.11);
-      border-radius: 9px;
-      border: 1.2px solid rgba(255,255,255,0.22);
-      text-align: center;
-      padding: 10px 3px 8px 3px;
+
+    .stats {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      font-size: .98rem;
-      font-family: var(--font-main);
-      box-shadow: 0 1.5px 7px #12fff422 inset;
-      transition: border-color .17s, box-shadow .18s;
-      backdrop-filter: blur(11px) saturate(180%);
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 15px;
     }
-    .stat-box:hover { border-color: var(--accent-cyan); box-shadow: 0 2px 17px #44fff833; }
-    .stat-value {
-      font-weight: 700;
-      font-size: 1.07rem;
-      color: var(--accent-green);
-      margin-bottom: 2px;
-      margin-top: 0;
-      font-family:'Space Grotesk','Inter',Arial,sans-serif;
-      transition: color 0.13s;
+
+    .stat-card {
+      flex: 1 1 200px;
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 12px;
+      text-align: center;
     }
-    .stat-box:hover .stat-value { color: var(--accent-cyan);}
-    .stat-label {
-      font-size: .97rem;
-      color: #e6edef;
-      opacity:.78;
-      letter-spacing: 0.07em;
-      font-family: var(--font-main);
-      padding-top:1px;
-    }
-    .main-panel {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      grid-template-areas:
-        "langs commits"
-        "stars prvsissues";
-    }
-    .widget {
-      background: var(--glass-bg);
-      border-radius: var(--panel-radius);
-      border: 2px solid var(--crystal-outline);
-      box-shadow: var(--panel-shadow);
-      padding: 1.2rem 1.35rem 1rem 1.35rem;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      min-width: 0;
-      position: relative;
-      margin-bottom:10px;
-      backdrop-filter: blur(28px) saturate(160%);
-    }
-    .widget-title {
-      font-size: 1.07rem;
-      font-family: 'Space Grotesk','Inter',Arial,sans-serif;
-      font-weight: 700;
+
+    .stat-card h4 {
+      margin: 5px 0;
+      font-size: 1rem;
       color: #fff;
-      margin-bottom: 10px;
-      letter-spacing: .08em;
-      user-select: none;
-      text-shadow:0 0 3px #36ffb455;
+      opacity: 0.8;
     }
-    .legend-list {
-      display: flex; flex-wrap: wrap; gap: 9px; margin-top: 8px; margin-bottom:8px;
+
+    .stat-card p {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: bold;
     }
-    .legend-item {
-      display: flex; align-items: center; gap: 5px;
-      font-size: .93rem;
-      color: #e8fdfe;
-      margin-right: 7px;
-      border-radius: 7px;
-      padding: 1px 6px;
-      background: rgba(255,255,255,0.09);
-      outline: 1px solid rgba(255,255,255,0.12);
-      opacity: .94;
-      font-family: 'Inter', 'JetBrains Mono',monospace;
-    }
-    .legend-item:hover { color: var(--accent-cyan); opacity:1;}
-    .legend-color {
-      width: 13px; height: 13px; border-radius: 2px;
-      border: 1.2px solid #36ffb4; display: inline-block;
-    }
-    canvas {
-      margin-top: 12px;
+
+    .list-card {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 12px;
       background: rgba(255,255,255,0.05);
-      border-radius: 11px;
-      width: 100% !important;
-      max-width: 415px !important;
-      min-width: 180px;
-      height: 185px !important;
+    }
+
+    .list-card h4 {
+      margin-bottom: 10px;
+    }
+
+    .list-card ul {
+      list-style: none;
+      padding: 0;
       max-height: 250px;
-      border: 1.5px solid rgba(255,255,255,0.15);
-      box-shadow: 0 4px 16px #44fff816;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      backdrop-filter: blur(5px) saturate(180%);
+      overflow-y: auto;
     }
-    canvas:hover { border-color: var(--accent-cyan);}
-    /* grid mapping */
-    .widget.langs{grid-area:langs;}
-    .widget.commits{grid-area:commits;}
-    .widget.stars{grid-area:stars;}
-    .widget.prvsissues{grid-area:prvsissues;}
-    @media (max-width: 900px) {
-      .dashboard-grid { grid-template-columns: 1fr;}
-      .main-panel { grid-template-columns: 1fr; gap:18px;}
+
+    .list-card li {
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
     }
-    @media (max-width: 700px) {
-      canvas { max-width:96vw; height: 120px !important;}
-      .widget {padding: 1.1rem 0.7rem;}
+
+    canvas {
+      width: 100% !important;
+      height: 400px !important;
+      margin-top: 20px;
     }
-    @media (max-width: 520px) {
-      h1 { font-size: 1rem; }
-      .profile-card,.widget {padding:0.8rem 0.15rem;}
-      .main-panel { gap: 9px;}
-      form { max-width:98vw; flex-direction:column;gap:11px;}
-      .legend-list{flex-wrap:wrap;gap:4px;}
-      canvas{height:75px !important;}
-    }
-    ::selection { background:#44fff823; }
   </style>
 </head>
 <body>
-  <h1>GitHub Analyzer <span style="color:#36ffb4;">░▒▓ CRYSTAL</span></h1>
-  <form method="POST" action="/analyzer">
-    <input name="username" placeholder="Enter GitHub username" required />
-    <button type="submit">Analyze</button>
-  </form>
-  <% if (error) { %>
-    <div class="error" style="color:#ffe78d;font-weight:700;background:#282b18e6;margin:19px 0;padding:10px 14px;border-radius:8px;text-align:center;border:1.7px solid #ffe78d"><%= error %></div>
-  <% } %>
-  <% if (data) { %>
-    <div class="dashboard-grid">
-      <div class="sidebar">
-        <div class="profile-card">
-          <img class="profile-avatar" src="<%= data.avatar %>" alt="User Avatar" />
-          <div class="profile-username"><%= data.name || data.username %></div>
-          <div class="profile-handle">@<%= data.username %></div>
-          <div class="profile-bio"><%= data.bio || 'No bio provided.' %></div>
-          <div class="stats-grid">
-            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.followers %>">0</div><div class="stat-label">Followers</div></div>
-            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.publicRepos %>">0</div><div class="stat-label">Repos</div></div>
-            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.totalCommits %>">0</div><div class="stat-label">Commits</div></div>
-            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.totalPRs %>">0</div><div class="stat-label">PRs</div></div>
-            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.totalIssues %>">0</div><div class="stat-label">Issues</div></div>
-            <div class="stat-box"><div class="stat-value" data-animate-number="<%= data.totalStars %>">0</div><div class="stat-label">Stars</div></div>
-          </div>
-        </div>
-      </div>
-      <!-- Main Panel: Graphs & Analytics -->
-      <div class="main-panel">
-        <div class="widget langs">
-          <div class="widget-title">Top Languages</div>
-          <canvas id="languageChart" width="420" height="220"></canvas>
-          <div class="legend-list">
-            <% const termColors=['#24fa94','#44fff8','#ffe78d','#e1e546','#a871ff','#ed5e80','#ffe78d','#d3ff5a','#45a5fa','#b2ffa1'];let i=0;
-               for(let lang in data.languages) { %>
-              <div class="legend-item">
-                <span class="legend-color" style="background:<%= termColors[i % termColors.length] %>"></span>
-                <span><%= lang %></span>
-              </div>
-            <% i++; } %>
-          </div>
-        </div>
-        <div class="widget commits">
-          <div class="widget-title">Commits Over Last Year</div>
-          <canvas id="commitsChart" width="440" height="180"></canvas>
-        </div>
-        <div class="widget stars">
-          <div class="widget-title">Stars per Repository</div>
-          <canvas id="starsChart" width="440" height="180"></canvas>
-        </div>
-        <div class="widget prvsissues">
-          <div class="widget-title">PRs vs Issues</div>
-          <canvas id="prvsissuesChart" width="320" height="180"></canvas>
-        </div>
-      </div>
+  <h1>GitHub User Analysis</h1>
+
+  <!-- Profile Card -->
+  <div class="glass-card profile">
+    <img src="<%= user.avatarUrl %>" alt="avatar">
+    <div>
+      <h2 class="text-xl font-bold"><%= user.name || user.login %></h2>
+      <p class="opacity-80"><%= user.bio || "No bio available" %></p>
+      <p class="opacity-60">Followers: <%= user.followers.totalCount %></p>
     </div>
-  <% } %>
-  <% if (data) { %>
-    <script>
-      // Animated stat numbers
-      document.querySelectorAll('[data-animate-number]').forEach(el => {
-        const final = +el.dataset.animateNumber;
-        let frame = 0, totalFrames = 21, start = 0;
-        function animateNum() {
-          el.textContent = Math.round(final* frame / totalFrames).toLocaleString();
-          if (frame++ < totalFrames) requestAnimationFrame(animateNum);
-          else el.textContent = final.toLocaleString();
-        }
-        animateNum();
-      });
-      // Crystal palette for charts
-      const termColors = ['#24fa94','#44fff8','#ffe78d','#e1e546','#a871ff','#ed5e80','#ffe78d','#d3ff5a','#45a5fa','#b2ffa1'];
-      // Languages Pie
-      const languageData = <%- JSON.stringify(data.languages) %>;
-      const langLabels = Object.keys(languageData);
-      const langValues = Object.values(languageData);
-      new Chart(document.getElementById('languageChart'), {
-        type: 'doughnut',
-        data: {
-          labels: langLabels,
-          datasets: [{
-            data: langValues,
-            backgroundColor: termColors,
-            borderWidth: 2,
-            borderColor: '#131a16'
-          }]
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="glass-card stats">
+    <div class="stat-card">
+      <h4>Public Repos</h4>
+      <p><%= user.repositories.nodes.length %></p>
+    </div>
+    <div class="stat-card">
+      <h4>Total Stars</h4>
+      <p><%= user.totalStars %></p>
+    </div>
+    <div class="stat-card">
+      <h4>Total Commits</h4>
+      <p><%= user.activity.data.reduce((a,b)=>a+b,0) %></p>
+    </div>
+  </div>
+
+  <!-- Language List -->
+  <div class="glass-card list-card">
+    <h4>Languages Used</h4>
+    <ul>
+      <% if(Object.keys(user.languages).length > 0){ %>
+        <% Object.keys(user.languages).forEach(lang => { %>
+          <li><%= lang %> - <%= user.languages[lang] %> repos</li>
+        <% }) %>
+      <% } else { %>
+        <li>No languages data available</li>
+      <% } %>
+    </ul>
+  </div>
+
+  <!-- Repositories List -->
+  <div class="glass-card list-card">
+    <h4>Repositories</h4>
+    <ul>
+      <% if(user.repositories.nodes.length > 0){ %>
+        <% user.repositories.nodes.forEach(repo => { %>
+          <li><%= repo.name %> - ⭐ <%= repo.stargazerCount %> | 🍴 <%= repo.forkCount %></li>
+        <% }) %>
+      <% } else { %>
+        <li>No repositories available</li>
+      <% } %>
+    </ul>
+  </div>
+
+  <!-- Repositories Stars Graph -->
+  <div class="glass-card">
+    <h4>Repository Stars Overview</h4>
+    <canvas id="repoChart"></canvas>
+  </div>
+
+  <script>
+    // Animate cards on load
+    gsap.from(".glass-card", {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power3.out"
+    });
+
+    // Stars Bar Chart
+    const ctx = document.getElementById('repoChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: <%- JSON.stringify(user.repositories.nodes.map(r => r.name)) %>,
+        datasets: [{
+          label: 'Stars',
+          data: <%- JSON.stringify(user.repositories.nodes.map(r => r.stargazerCount)) %>,
+          backgroundColor: 'rgba(255, 107, 107, 0.7)',
+          borderColor: 'rgba(255, 107, 107, 1)',
+          borderWidth: 1,
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { labels: { color: "white" } }
         },
-        options: {
-          plugins: { legend: { display: false }},
-          cutout: '80%',
-          animation: { animateRotate:true, animateScale:true, duration:900 },
+        scales: {
+          x: { ticks: { color: "white" } },
+          y: { ticks: { color: "white" }, beginAtZero: true }
         }
-      });
-      // Commits by Month
-      const commitsData = <%- JSON.stringify(data.commitsPerMonth || { Jan: 0, Feb: 0, Mar: 0, Apr: 0, May: 0, Jun: 0, Jul: 0, Aug: 0, Sep: 0, Oct: 0, Nov: 0, Dec: 0 }) %>;
-      new Chart(document.getElementById('commitsChart').getContext('2d'), {
-        type: 'line',
-        data: {
-          labels: Object.keys(commitsData),
-          datasets: [{
-            label: 'Commits',
-            data: Object.values(commitsData),
-            borderColor: '#44fff8',
-            backgroundColor: 'rgba(68,255,248,0.10)',
-            fill:true,
-            tension: 0.32,
-            pointBackgroundColor: '#36ffb4'
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false }},
-          scales: {
-            x: { ticks: { color: "#e8fdfe"}, grid: {color:'#282a3355'} },
-            y: { ticks: { color: "#e1efee" }, grid: {color:'#222c2944'}}
-          },
-          animation: { duration:860, easing:'easeInOutQuad' }
-        }
-      });
-      // Stars per Repository (Bar)
-      const starsData = <%- JSON.stringify(data.starsPerRepo || {}) %>;
-      new Chart(document.getElementById('starsChart').getContext('2d'), {
-        type: 'bar',
-        data: {
-          labels: Object.keys(starsData),
-          datasets: [{
-            label: "Stars",
-            data: Object.values(starsData),
-            backgroundColor: '#ffe78d',
-            borderRadius:6,
-            borderWidth: 0,
-          }]
-        },
-        options: {
-          plugins: { legend: { display: false } },
-          scales: {
-            x: { ticks: { color: "#e8fdfe" }, grid:{color:'#24252944'} },
-            y: { ticks: { color: "#f7fee6" }, grid: {color:'#23282244'}}
-          },
-          animation: {duration:670}
-        }
-      });
-      // PRs vs Issues
-      const prCount = <%- JSON.stringify(data.totalPRs) %>;
-      const issuesCount = <%- JSON.stringify(data.totalIssues) %>;
-      new Chart(document.getElementById('prvsissuesChart').getContext('2d'), {
-        type: 'pie',
-        data: {
-          labels: ["Pull Requests", "Issues"],
-          datasets: [{
-            data: [prCount, issuesCount],
-            backgroundColor: ["#36ffb4", "#ffe78d"],
-            borderColor: "#131a16",
-            borderWidth: 2,
-          }]
-        },
-        options: {
-          plugins: { legend: { labels: { color: "#36ffb4", font: {size: 14}} } },
-          animation: { animateScale:true, animateRotate:true, duration:900 }
-        }
-      });
-      feather.replace();
-    </script>
-  <% } %>
+      }
+    });
+  </script>
 </body>
 </html>

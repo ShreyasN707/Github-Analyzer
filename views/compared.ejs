@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GitHub Users Comparison</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 40px;
+      background: linear-gradient(to right, #ff6a00, #ee0979);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: auto;
+      justify-items: center;
+      align-items: start;
+    }
+
+    .glass-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 500px;
+      padding: 25px;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      text-align: left;
+      width: 100%;
+    }
+
+    .profile img {
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      border: 2px solid rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+
+    .profile div {
+      flex: 1;
+    }
+
+    .profile h2 {
+      margin: 0 0 5px 0;
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .profile p {
+      margin: 0;
+      opacity: 0.8;
+      font-size: 0.95rem;
+    }
+
+    .stats {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      font-size: 0.95rem;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .chart-container {
+      width: 100%;
+      margin-top: 25px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 300px !important;
+    }
+
+    @media (max-width: 900px) {
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>GitHub Users Comparison</h1>
+
+  <div class="comparison-grid">
+    <!-- User 1 -->
+    <div class="glass-card" id="user1Card">
+      <div class="profile">
+        <img src="<%= data.user1.avatarUrl %>" alt="avatar">
+        <div>
+          <h2><%= data.user1.name || data.user1.login %></h2>
+          <p><%= data.user1.bio || "No bio available" %></p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat-row"><span>Followers:</span> <span><%= data.user1.followers.totalCount %></span></div>
+        <div class="stat-row"><span>Total Repos:</span> <span><%= data.user1.repositories.nodes.length %></span></div>
+        <div class="stat-row"><span>Total Stars:</span> <span><%= data.user1.repositories.nodes.reduce((sum,r)=>sum+r.stargazerCount,0) %></span></div>
+        <div class="stat-row">
+          <span>Languages:</span>
+          <span>
+            <% if (data.user1.languages && data.user1.languages.labels.length) { %>
+              <%= data.user1.languages.labels.join(', ') %>
+            <% } else { %>
+              No languages
+            <% } %>
+          </span>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="user1Chart"></canvas>
+      </div>
+    </div>
+
+    <!-- User 2 -->
+    <div class="glass-card" id="user2Card">
+      <div class="profile">
+        <img src="<%= data.user2.avatarUrl %>" alt="avatar">
+        <div>
+          <h2><%= data.user2.name || data.user2.login %></h2>
+          <p><%= data.user2.bio || "No bio available" %></p>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat-row"><span>Followers:</span> <span><%= data.user2.followers.totalCount %></span></div>
+        <div class="stat-row"><span>Total Repos:</span> <span><%= data.user2.repositories.nodes.length %></span></div>
+        <div class="stat-row"><span>Total Stars:</span> <span><%= data.user2.repositories.nodes.reduce((sum,r)=>sum+r.stargazerCount,0) %></span></div>
+        <div class="stat-row">
+          <span>Languages:</span>
+          <span>
+            <% if (data.user2.languages && data.user2.languages.labels.length) { %>
+              <%= data.user2.languages.labels.join(', ') %>
+            <% } else { %>
+              No languages
+            <% } %>
+          </span>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="user2Chart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    gsap.from(".glass-card", {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      stagger: 0.2,
+      ease: "power3.out"
+    });
+
+    // Set user2 card height same as user1
+    window.addEventListener('load', () => {
+      const user1Card = document.getElementById('user1Card');
+      const user2Card = document.getElementById('user2Card');
+      user2Card.style.height = user1Card.offsetHeight + 'px';
+    });
+
+    // User 1 Chart
+    const user1Repos = <%- JSON.stringify(data.user1.repositories.nodes.map(r => ({ name: r.name, stars: r.stargazerCount }))) %>;
+    new Chart(document.getElementById('user1Chart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: user1Repos.map(r => r.name),
+        datasets: [{
+          label: "<%= data.user1.login %> Stars",
+          data: user1Repos.map(r => r.stars),
+          backgroundColor: 'rgba(255, 107, 107, 0.7)',
+          borderColor: 'rgba(255, 107, 107, 1)',
+          borderWidth: 1,
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: 'white' } } },
+        scales: { x: { ticks: { color: 'white' } }, y: { ticks: { color: 'white' } } }
+      }
+    });
+
+    // User 2 Chart
+    const user2Repos = <%- JSON.stringify(data.user2.repositories.nodes.map(r => ({ name: r.name, stars: r.stargazerCount }))) %>;
+    new Chart(document.getElementById('user2Chart').getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: user2Repos.map(r => r.name),
+        datasets: [{
+          label: "<%= data.user2.login %> Stars",
+          data: user2Repos.map(r => r.stars),
+          backgroundColor: 'rgba(0, 230, 255, 0.7)',
+          borderColor: 'rgba(0, 230, 255, 1)',
+          borderWidth: 1,
+          borderRadius: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { labels: { color: 'white' } } },
+        scales: { x: { ticks: { color: 'white' } }, y: { ticks: { color: 'white' } } }
+      }
+    });
+  </script>
+</body>
+</html>

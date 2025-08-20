@@ -4,7 +4,7 @@ const router=express.Router()
 const {analyzerfetch}=require('../controller/apifetch')
 const {compare}=require('../controller/compare')
 
-router.get("/analyzer",(req,res)=>res.status(200).render('index'))
+router.get("/analyzer",(req,res)=>res.status(200).render('index', { data: null, error: null }))
 router.post('/analyzer',compare)
 
 module.exports={
