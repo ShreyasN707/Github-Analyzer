@@ -1,5 +1,6 @@
 // controller/compare.js
 const { analyzerfetch } = require('./apifetch');
+require('dotenv').config();
 
 const compare = async (req, res) => {
   const user1 = req.body.user1;
@@ -11,7 +12,7 @@ const compare = async (req, res) => {
 
   if (user1 && !user2) {
     let result = await analyzerfetch(user1);
-    console.log(result)
+    console.log(`New request on PORT: ${process.env.PORT}`)
     return res.render('result', { user: result});
   }
 
