@@ -3,48 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <title>GitHub Analyzer</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: white;
       margin: 0;
-      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
+      background: linear-gradient(-45deg, #22333b, #0a0908, #22333b, #0a0908);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: white;
+      padding-bottom: 40px;
     }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(16px) saturate(180%);
-      -webkit-backdrop-filter: blur(16px) saturate(180%);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-      padding: 20px;
-      margin: 20px 0;
-      width: 90%;
-      max-width: 1000px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .glass-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     h1 {
       margin-top: 30px;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       font-weight: 700;
       text-align: center;
-      background: linear-gradient(to right, #ff6a00, #ee0979);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #ffffff;
+    }
+
+    .back-button {
+      margin-top: 15px;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(14px);
+      border-radius: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 6px 25px rgba(0,0,0,0.3);
+      padding: 20px;
+      margin: 20px 0;
+      width: 90%;
+      max-width: 950px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.4);
     }
 
     .profile {
@@ -57,7 +81,7 @@
       border-radius: 50%;
       width: 80px;
       height: 80px;
-      border: 2px solid rgba(255,255,255,0.3);
+      border: 2px solid rgba(255,255,255,0.4);
     }
 
     .stats {
@@ -88,38 +112,36 @@
       font-weight: bold;
     }
 
-    .list-card {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
+    .repo-list, .lang-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
     }
 
-    .list-card h4 {
-      margin-bottom: 10px;
-    }
-
-    .list-card ul {
-      list-style: none;
-      padding: 0;
-      max-height: 250px;
-      overflow-y: auto;
-    }
-
-    .list-card li {
-      padding: 5px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+    .repo-item, .lang-item {
+      background: rgba(255,255,255,0.1);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-weight: bold;
     }
 
     canvas {
       width: 100% !important;
-      height: 400px !important;
+      height: 350px !important;
       margin-top: 20px;
+    }
+
+    @media (max-width: 650px) {
+      h1 { font-size: 1.6rem; }
+      .profile { flex-direction: column; text-align: center; }
+      .profile img { width: 70px; height: 70px; }
     }
   </style>
 </head>
 <body>
-  <h1>GitHub User Analysis</h1>
+  <h1>GitHub-User-Data</h1>
+  <a href="/analyzer" class="back-button">⬅ Back</a>
 
   <!-- Profile Card -->
   <div class="glass-card profile">
@@ -142,47 +164,47 @@
       <p><%= user.totalStars %></p>
     </div>
     <div class="stat-card">
-      <h4>Total Commits</h4>
+      <h4>Total Contributions</h4>
       <p><%= user.activity.data.reduce((a,b)=>a+b,0) %></p>
     </div>
   </div>
 
-  <!-- Language List -->
-  <div class="glass-card list-card">
+  <!-- Languages Section -->
+  <div class="glass-card">
     <h4>Languages Used</h4>
-    <ul>
-      <% if(Object.keys(user.languages).length > 0){ %>
+    <div class="lang-list">
+      <% if(user.languages && Object.keys(user.languages).length > 0) { %>
         <% Object.keys(user.languages).forEach(lang => { %>
-          <li><%= lang %> - <%= user.languages[lang] %> repos</li>
+          <div class="lang-item"><%= lang %> (<%= user.languages[lang] %>)</div>
         <% }) %>
       <% } else { %>
-        <li>No languages data available</li>
+        <p>No language data available</p>
       <% } %>
-    </ul>
+    </div>
   </div>
 
-  <!-- Repositories List -->
-  <div class="glass-card list-card">
+  <!-- Repositories Section -->
+  <div class="glass-card">
     <h4>Repositories</h4>
-    <ul>
+    <div class="repo-list">
       <% if(user.repositories.nodes.length > 0){ %>
         <% user.repositories.nodes.forEach(repo => { %>
-          <li><%= repo.name %> - ⭐ <%= repo.stargazerCount %> | 🍴 <%= repo.forkCount %></li>
+          <div class="repo-item"><%= repo.name %> ⭐ <%= repo.stargazerCount %></div>
         <% }) %>
       <% } else { %>
-        <li>No repositories available</li>
+        <p>No repositories available</p>
       <% } %>
-    </ul>
+    </div>
   </div>
 
-  <!-- Repositories Stars Graph -->
+  <!-- Contributions Chart -->
   <div class="glass-card">
-    <h4>Repository Stars Overview</h4>
-    <canvas id="repoChart"></canvas>
+    <h4>Daily Contributions Overview</h4>
+    <canvas id="contribChart"></canvas>
   </div>
 
   <script>
-    // Animate cards on load
+    // Animate cards
     gsap.from(".glass-card", {
       opacity: 0,
       y: 40,
@@ -191,33 +213,45 @@
       ease: "power3.out"
     });
 
-    // Stars Bar Chart
-    const ctx = document.getElementById('repoChart').getContext('2d');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: <%- JSON.stringify(user.repositories.nodes.map(r => r.name)) %>,
-        datasets: [{
-          label: 'Stars',
-          data: <%- JSON.stringify(user.repositories.nodes.map(r => r.stargazerCount)) %>,
-          backgroundColor: 'rgba(255, 107, 107, 0.7)',
-          borderColor: 'rgba(255, 107, 107, 1)',
-          borderWidth: 1,
-          borderRadius: 6
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { labels: { color: "white" } }
+    // Contributions Chart Fix
+    const labels = <%- JSON.stringify(user.activity.labels || []) %>;
+    const dataPoints = <%- JSON.stringify(user.activity.data || []) %>;
+    const ctx = document.getElementById('contribChart').getContext('2d');
+
+    if(labels.length && dataPoints.length){
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Daily Contributions',
+            data: dataPoints,
+            backgroundColor: 'rgba(0, 255, 0, 0.5)',
+            borderColor: 'rgba(0, 255, 0, 0.8)',
+            borderWidth: 1
+          }]
         },
-        scales: {
-          x: { ticks: { color: "white" } },
-          y: { ticks: { color: "white" }, beginAtZero: true }
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { labels: { color: "white" } },
+            tooltip: {
+              enabled: true,
+              backgroundColor: 'rgba(0,0,0,0.8)',
+              titleColor: 'white',
+              bodyColor: 'white'
+            }
+          },
+          scales: {
+            x: { ticks: { color: "white" } },
+            y: { ticks: { color: "white" }, beginAtZero: true }
+          }
         }
-      }
-    });
+      });
+    } else {
+      ctx.canvas.parentElement.innerHTML = "<p>No contributions data available</p>";
+    }
   </script>
 </body>
 </html>
