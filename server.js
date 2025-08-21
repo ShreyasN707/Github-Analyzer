@@ -1,11 +1,12 @@
-require('dotenv').config();
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
+
+require('dotenv').config();
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -25,6 +26,8 @@ setInterval(()=>{
 });
 },28800000)
 
-app.listen(PORT, () => {
-  console.log(`.....server Up at http://localhost:${PORT}/analyzer ......`);
-});
+const {cores}=require('./CPUopt')
+cores(app)
+
+
+
