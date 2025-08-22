@@ -5,7 +5,7 @@ A **powerful yet simple GitHub profile analyzer** that lets you:
 - 🔍 **Fetch** detailed info about a single GitHub user  
 - ⚔️ **Compare** two GitHub users **side by side** (repos, followers, stars, activity, etc.)  
 
-Built with **Node.js + Express + EJS + Axios**, it’s perfect for developers who want **quick insights into GitHub accounts**.  
+Built with **Node.js + Express + EJS + Axios + node-cache**, it’s perfect for developers who want **quick insights into GitHub accounts**.  
 
 ---
 
