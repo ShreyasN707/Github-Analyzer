@@ -44,8 +44,12 @@ ___________________________________________________________________
 
 github-analyzer/
 │── controllers/
+│ ├── Apicaching.js # Caches API responses to reduce requests
 │ ├── api.fetch.js # Fetch GitHub user data from API
 │ ├── compare.js # Handles single user & comparison requests
+│
+│── middleware/
+│ └── recordlogging.js # Logs user requests for analytics and debugging
 │
 │── routes/
 │ └── gitroutes.js # Express GET & POST routes
@@ -88,7 +92,7 @@ npm install
 npm run dev
 
 
-Visit: http://localhost:3000 🎉
+Visit: http://localhost:5000 🎉
 
 
 ____________________________________________________________________
@@ -96,11 +100,13 @@ ____________________________________________________________________
 
 ## 📌 Future Improvements  
 
-- 📱 **Enhanced Mobile Responsiveness** – Optimized layout for phones, tablets, and smaller screens   
-- ✨ **UI Enhancements** – Cleaner, more intuitive and user-friendly interface  
-- ⚡ **Performance Optimizations** – Faster load times and smoother interactions  
-- ⚔️ **Advanced Comparison Modes** – Compare multiple users simultaneously or with custom metrics  
-- 🌟 **Additional Features** – GitHub stats badges, contribution streaks, and personalized insights
+- 📱 **Enhanced Mobile Responsiveness** – Fully optimized layout for phones, tablets, and smaller screens  
+- ✨ **UI & UX Enhancements** – Cleaner, more intuitive, and highly user-friendly interface  
+- ⚡ **Performance Optimizations** – Faster load times, smoother interactions, and efficient API handling  
+- 🤖 **AI Assistant Integration** – Personalized AI guidance to help users outperform others in comparison mode, with actionable tips and insights  
+- ⚔️ **Advanced Comparison Modes** – Compare multiple users simultaneously, use custom metrics, and deeper analytics for better evaluation  
+- 🌟 **Extended Data Fetching & Display** – More detailed GitHub stats, contribution streaks, repository insights, and visually engaging dashboards  
+
 
 ____________________________________________________________________
 
