@@ -8,20 +8,20 @@ const compare = async (req, res) => {
 
 
   if (!user1) {
-    return res.render("index", { error: "Please enter a username", data: null });
+    return res.status(400).render("index", { error: "Please enter a username", data: null });
   }
 
   if (user1 && !user2) {
     let result = await analyzerfetch(user1);
     console.log(`New request on PORT: ${process.env.PORT}`)
-    return res.render('result', { user: result});
+    return res.status(200).render('result', { user: result});
   }
 
   if (user1 && user2) {
     const result1 = await analyzerfetch(user1);
     const result2 = await analyzerfetch(user2);
     // You can combine the results if needed or send both
-    return res.render('compared', { data: { user1: result1, user2: result2 }, error: null });
+    return res.status(200).render('compared', { data: { user1: result1, user2: result2 }, error: null });
   }
 
 };

@@ -14,6 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 const { router } = require("./routes/gitroutes");
 app.use("/", router);
 
+//delete the logging file after a certain time interval
 const fs = require('fs');
 
 setInterval(()=>{
@@ -24,7 +25,7 @@ setInterval(()=>{
   }
   console.log("File deleted successfully!");
 });
-},28800000)
+},3*24*60*60*1000)
 
 const {cores}=require('./CPUopt')
 cores(app)
