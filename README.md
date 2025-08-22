@@ -38,35 +38,33 @@ MODES:
 
 ---
 
-## 📂 Project Structure  
-
-___________________________________________________________________
+-------------------------------------------------------------------------------
+## 🗂 Project Structure
 
 github-analyzer/
-│── controllers/
-│ ├── Apicaching.js # Caches API responses to reduce requests
-│ ├── api.fetch.js # Fetch GitHub user data from API
-│ ├── compare.js # Handles single user & comparison requests
+├── controllers/
+│   ├── Apicaching.js       # Caches API responses to reduce requests
+│   ├── api.fetch.js        # Fetch GitHub user data from API
+│   └── compare.js          # Handles single user & comparison requests
 │
-│── middleware/
-│ └── recordlogging.js # Logs user requests for analytics and debugging
+├── middleware/
+│   └── recordlogging.js    # Logs user requests for analytics and debugging
 │
-│── routes/
-│ └── gitroutes.js # Express GET & POST routes
+├── routes/
+│   └── gitroutes.js        # Express GET & POST routes
 │
-│── views/
-│ ├── index.ejs # Landing page (search input)
-│ ├── result.ejs # Single user profile view
-│ └── compared.ejs # Two-user comparison view
+├── views/
+│   ├── index.ejs           # Landing page (search input)
+│   ├── result.ejs          # Single user profile view
+│   └── compared.ejs        # Two-user comparison view
 │
-│── .gitignore # Ignored files (node_modules, .env, etc.)
-│── .env # Environment variables (GitHub token, port, etc.)
-│── package.json # Project metadata & scripts
-│── server.js # Main server entry point
-│── README.md # Project documentation
+├── .gitignore              # Ignored files (node_modules, .env, etc.)
+├── .env                    # Environment variables (GitHub token, port, etc.)
+├── package.json            # Project metadata & scripts
+├── server.js               # Main server entry point
+└── README.md               # Project documentation
 
-___________________________________________________________________
-
+------------------------------------------------------------------------------------
 
 ---
 
