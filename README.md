@@ -96,8 +96,7 @@ ____________________________________________________________________
 
 ## 📌 Future Improvements  
 
-- 📱 **Enhanced Mobile Responsiveness** – Optimized layout for phones, tablets, and smaller screens  
-- 🔒 **API Caching** – Reduce API calls and improve performance  
+- 📱 **Enhanced Mobile Responsiveness** – Optimized layout for phones, tablets, and smaller screens   
 - ✨ **UI Enhancements** – Cleaner, more intuitive and user-friendly interface  
 - ⚡ **Performance Optimizations** – Faster load times and smoother interactions  
 - ⚔️ **Advanced Comparison Modes** – Compare multiple users simultaneously or with custom metrics  
